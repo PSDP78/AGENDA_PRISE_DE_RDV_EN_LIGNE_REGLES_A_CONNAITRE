@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Application — Gestion des agendas (Accordion)</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --accent:#22d3ee;
+      --ring:#334155;
+      --border:#1f2937;
+      --shadow: 0 10px 25px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.03) inset;
+    }
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(34,211,238,.15), transparent 40%),
+                  radial-gradient(900px 700px at -10% 110%, rgba(59,130,246,.12), transparent 40%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:900px; margin:40px auto; padding:24px}
+    header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px}
+    h1{font-size:clamp(1.25rem, 1rem + 2vw, 2rem); line-height:1.2; margin:0}
+    .subtitle{color:var(--muted); font-size:.95rem}
+
+    .accordion{display:grid; gap:12px;}
+    .item{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border:1px solid var(--border);
+      border-radius:18px; overflow:hidden; box-shadow: var(--shadow);
+    }
+    .trigger{
+      -webkit-tap-highlight-color: transparent;
+      width:100%; text-align:left; border:0; background:transparent; color:inherit; cursor:pointer;
+      padding:18px 20px; display:flex; align-items:center; gap:12px; position:relative;
+      font-weight:600; letter-spacing:.2px; font-size:1.05rem;
+    }
+    .trigger:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:14px}
+    .chevron{ width:22px; height:22px; flex:0 0 22px; display:grid; place-items:center; border-radius:8px; border:1px solid var(--ring)}
+    .chevron svg{ transition: transform .25s ease}
+    .trigger[aria-expanded="true"] .chevron svg{ transform: rotate(90deg)}
+    .panel{
+      padding: 0 20px; border-top:1px solid var(--border);
+      max-height: 0; overflow: hidden; transition: max-height .35s ease;
+      will-change:max-height;
+    }
+    .panel-inner{ padding:16px 0 20px 2px; color:var(--text);}
+    .panel-inner p{ margin:0 0 10px}
+    .panel-inner ul{margin:8px 0 0 20px}
+    .badge{ display:inline-block; padding:.15rem .5rem; border:1px solid var(--ring); border-radius:999px; font-size:.75rem; color:var(--muted)}
+    .hint{ color:var(--muted); font-size:.9rem; margin-top:8px}
+    .footer{margin-top:22px; color:var(--muted); font-size:.85rem}
+    .kbd{border:1px solid var(--ring); border-bottom-width:2px; padding:.15rem .35rem; border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Gestion des agendas — mode d’emploi</h1>
+        <div class="subtitle">Cliquez sur un titre pour afficher/masquer le contenu.</div>
+      </div>
+      <span class="badge" aria-hidden="true">HTML • CSS • JS</span>
+    </header>
+
+    <section class="accordion" id="accordion" aria-label="Sections d’aide">
+
+      <article class="item">
+        <button class="trigger" aria-expanded="false" aria-controls="p1" id="t1">
+          <span class="chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+          1. CRÉATION DES AGENDAS
+        </button>
+        <div class="panel" id="p1" role="region" aria-labelledby="t1">
+          <div class="panel-inner">
+            <p>Un agenda par professionnel qui prend des rendez-vous.</p>
+            <p>Si plusieurs personnes interviennent, il faut créer autant d’agendas que de collaborateurs.</p>
+            <p>Possibilité de créer des <strong>agendas de ressources</strong> (cabines, équipements, salles).</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="item">
+        <button class="trigger" aria-expanded="false" aria-controls="p2" id="t2">
+          <span class="chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+          2. CRÉATION DES PRESTATIONS
+        </button>
+        <div class="panel" id="p2" role="region" aria-labelledby="t2">
+          <div class="panel-inner">
+            <p>Chaque type de rendez-vous (consultation, soin, entretien…) doit être créé comme une <strong>prestation</strong>.</p>
+            <p>Les prestations peuvent avoir :</p>
+            <ul>
+              <li>Une durée spécifique</li>
+              <li>Un prix</li>
+              <li>Une catégorie (ex : à domicile, en cabinet)</li>
+            </ul>
+            <p>On peut associer une prestation à un ou plusieurs agendas selon les <strong>compétences</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="item">
+        <button class="trigger" aria-expanded="false" aria-controls="p3" id="t3">
+          <span class="chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+          3. GESTION DES RESSOURCES
+        </button>
+        <div class="panel" id="p3" role="region" aria-labelledby="t3">
+          <div class="panel-inner">
+            <p>Si une prestation nécessite un équipement ou une salle, il faut :</p>
+            <ul>
+              <li>Créer un <strong>agenda de ressource</strong></li>
+              <li>L’associer aux prestations concernées</li>
+            </ul>
+            <p>Cela permet d’éviter les <strong>conflits de réservation</strong>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="item">
+        <button class="trigger" aria-expanded="false" aria-controls="p4" id="t4">
+          <span class="chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+          4. PARAMÉTRAGE DES DISPONIBILITÉS
+        </button>
+        <div class="panel" id="p4" role="region" aria-labelledby="t4">
+          <div class="panel-inner">
+            <p>Les horaires d’ouverture doivent être définis pour chaque agenda.</p>
+            <p>Il est possible de personnaliser les créneaux selon les jours, les services ou les professionnels.</p>
+            <p>On peut bloquer des créneaux pour des <em>absences</em>, des <em>congés</em> ou des <em>urgences</em>.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="item">
+        <button class="trigger" aria-expanded="false" aria-controls="p5" id="t5">
+          <span class="chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+          5. LIEU DU RENDEZ-VOUS
+        </button>
+        <div class="panel" id="p5" role="region" aria-labelledby="t5">
+          <div class="panel-inner">
+            <p>Il est possible de distinguer les rendez-vous :</p>
+            <ul>
+              <li><strong>Sur site</strong></li>
+              <li><strong>À domicile</strong></li>
+            </ul>
+            <p>Cela se fait via la <strong>catégorisation</strong> des prestations ou des agendas.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="item">
+        <button class="trigger" aria-expanded="false" aria-controls="p6" id="t6">
+          <span class="chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+          6. GESTION DES ACCÈS
+        </button>
+        <div class="panel" id="p6" role="region" aria-labelledby="t6">
+          <div class="panel-inner">
+            <p>Chaque utilisateur peut avoir son propre identifiant ou partager un compte commun.</p>
+            <p>Il est possible de définir des rôles : <strong>administrateur</strong>, <strong>utilisateur simple</strong>, etc.</p>
+            <p class="hint">⚠️ Attention à la <strong>sécurité des accès</strong> si plusieurs personnes utilisent le même compte.</p>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <p class="footer">Astuce : naviguez au clavier avec <span class="kbd">Tab</span>, puis validez avec <span class="kbd">Entrée</span> ou <span class="kbd">Espace</span>.</p>
+  </div>
+
+  <script>
+    const items = document.querySelectorAll('.item');
+    items.forEach(item => {
+      const btn = item.querySelector('.trigger');
+      const panel = item.querySelector('.panel');
+
+      btn.setAttribute('aria-expanded', 'false');
+      panel.style.maxHeight = 0;
+
+      const toggle = () => {
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        if (!open) {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        } else {
+          panel.style.maxHeight = '0px';
+        }
+      };
+      btn.addEventListener('click', toggle);
+
+      panel.addEventListener('transitionend', () => {
+        if (btn.getAttribute('aria-expanded') === 'true') panel.style.maxHeight = 'none';
+      });
+
+      const ro = new ResizeObserver(() => {
+        if (btn.getAttribute('aria-expanded') === 'true') {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+      ro.observe(panel);
+    });
+  </script>
+</body>
+</html>
